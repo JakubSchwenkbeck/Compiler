@@ -1,4 +1,4 @@
-
+#
 abstract Class BBaum<A> {
 // Abstract class BBaum with generics
 
@@ -33,3 +33,6 @@ public Node<A>(A value,BBaum<A> left, BBaum<A> right){
 
 }
 
+@override <B> BBaum<B> mapTree(Function<A,B> f){
+f.apply(Value, f.apply(left,right));
+}
