@@ -33,6 +33,6 @@ public Node<A>(A value,BBaum<A> left, BBaum<A> right){
 
 }
 
-@override <B> BBaum<B> mapTree(Function<A,B> f){
-f.apply(Value, f.apply(left,right));
+@override BBaum<B> mapTree(Function<A,B> f){
+	return new Node<B> (f.apply(this.Value), left.mapTree,right.mapTree);
 }
