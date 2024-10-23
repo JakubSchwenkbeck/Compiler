@@ -32,7 +32,7 @@ fullAdder (a, b, carry) =
 -- 1.2 a
 -- Define the Term data type
 data Term
-  = Monom Rational String  -- Monom with coefficient and variable
+  = Monom Int Int -- Monom with coefficient and variable
   | Add Term Term          -- Addition
   | Mul Term Term          -- Multiplication
   | Div Term Term          -- Division
@@ -41,7 +41,10 @@ data Term
 -- 1.2 b
 -- Differentiate a Term
 diff :: Term -> Term
-diff _ = undefined  -- Placeholder for differentiation function
+diff (Monom x y) = Mul (Monom y 1) (Monom x (y-1)) -- Pattern Matching Haskell Style
+diff (Add x y) = Add (diff x) (diff y) -- Rule of Sums for differentiation
+diff (Mul x y) = Add (Mul (diff  x) y) (Mul x (diff y)) -- Chain rule for differentiating a product
+diff (Div x y) = Div (Add (Mul (diff x) y) (Mul -1 (Mul x (diff y)) +) (Mul y y) -- Rule for division
 
 -- 1.3 a 
 -- Define the BBaum data type
