@@ -6,7 +6,7 @@ import Data.Char (isAlpha, isAlphaNum, isDigit, isSpace) -- util for the lexer
 data Token = ClassToken  -- Keyword for "Class"
      	   | ModifierToken String -- Keyword for modifier like "public", "private", "protected"
  	   | StaticToken -- Token for Keyword for "static"
-	   | TypeToken -- Token for the Type like "int", "boolean", "String"
+	   | TypeToken String-- Token for the Type like "int", "boolean", "String"
 	   | IntToken Int -- Token for an Integer
 	   | BoolToken Bool -- Token for a boolean literal
       	   | IfToken -- Token for the Keyword "if"
@@ -30,6 +30,7 @@ lexer ('+':cs) = SymToken '+' : lexer cs
 lexer ('-':cs) = SymToken '-' : lexer cs
 lexer ('*':cs) = SymToken '*' : lexer cs
 lexer ('/':cs) = SymToken '/' : lexer cs
+lexer ('%':cs) = SymToken '%' : lexer cs
 lexer ('(':cs) = BraceToken '(' : lexer cs
 lexer (')':cs) = BraceToken ')' : lexer cs
 lexer ('{':cs) = BraceToken '{' : lexer cs
@@ -39,6 +40,7 @@ lexer ('}':cs) = BraceToken '}' : lexer cs
 DigitLexer cs = IntToken (read num) : lexer rest
   	where (num,rest) = span isDigit cs
 
+-- a big helper function to lex alphabetic input
 AlphaLexer cs =
   case span isAlpha cs of
 	("class",rest) -> ClassToken : lexer rest
@@ -46,5 +48,15 @@ AlphaLexer cs =
 	("private",rest) -> ModifierToken "private" : lexer rest
 	("protected",rest) -> ModifierToken "protected" : lexer rest
 	("return",rest) -> ReturnToken : lexer rest
-	
-(var,rest) -> IdentifierToken var : lexer rest
+	("static",rest) -> StaticToken : lexer rest
+ 	("int",rest) -> TypeToken "Integer" : lexer rest
+ 	("boolean",rest) -> TypeToken "Boolean" : lexer rest
+	("String",rest) -> TypeToken "String" : lexer rest
+	("true", rest) -> BoolTooken True : lexer rest
+	("false", rest) -> BoolTooken False : lexer rest
+	("if", rest) -> IfTooken : lexer rest
+	("else", rest) -> ElseToken : lexer rest
+   	("while",rest) -> WhileToken : lexer rest
+	("for" , rest) -> ForToken : lexer rest
+        (var,rest) -> IdentifierToken var : lexer rest
+
