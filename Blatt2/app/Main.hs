@@ -4,5 +4,6 @@ import qualified Scanner
 
 main :: IO ()
 main = do
-  putStrLn "Hello, Haskell!"
+  print (Scanner.lexer "class public int 76")
+
  
