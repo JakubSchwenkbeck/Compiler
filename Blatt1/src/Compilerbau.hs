@@ -6,6 +6,10 @@ module Compilerbau where
 myAnd :: (Bool, Bool) -> Bool
 myAnd (x, y) = x && y
 
+myAndPM ( True , True ) = True -- Pattern Matching approach
+myAndPM (_,_) = False
+
+
 myOr :: (Bool, Bool) -> Bool
 myOr (x, y) = x || y
 
@@ -31,6 +35,8 @@ fullAdder (a, b, carry) =
 
 -- 1.2 a
 -- Define the Term data type
+
+-- Not implemented for Real 
 data Term
   = Monom Int Int -- Monom with coefficient and variable
   | Add Term Term          -- Addition
@@ -41,10 +47,10 @@ data Term
 -- 1.2 b
 -- Differentiate a Term
 diff :: Term -> Term
-diff (Monom x y) = Mul (Monom y 1) (Monom x (y-1)) -- Pattern Matching Haskell Style
+diff (Monom x y) = Monom y * x (y-1) -- Pattern Matching Haskell Style
 diff (Add x y) = Add (diff x) (diff y) -- Rule of Sums for differentiation
 diff (Mul x y) = Add (Mul (diff  x) y) (Mul x (diff y)) -- Chain rule for differentiating a product
-diff (Div x y) = Div (Add (Mul (diff x) y) (Mul  (Monom (-1) 1) (Mul x (diff y)))) (Mul y y) -- Rule for division
+diff (Div x y) = Div (Add (Mul (diff x) y) (Mul  (Monom (-1) 0) (Mul x (diff y)))) (Mul y y) -- Rule for division
 
 -- 1.3 a 
 -- Define the BBaum data type

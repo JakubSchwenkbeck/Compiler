@@ -4,6 +4,9 @@ import Compilerbau
 
 main :: IO ()
 main = do
+    print $ myAndPM (True,True)
+    print $ myAndPM (False,True)
+
     putStrLn "Testing logical operators:"
     print $ halfAdder (True, False)       -- Should print (True, False)
     print $ fullAdder (True, True, False) -- Should print (False, True)
